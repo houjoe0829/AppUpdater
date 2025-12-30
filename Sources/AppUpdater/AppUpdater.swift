@@ -506,8 +506,9 @@ private func unzip(_ url: URL, contentType: ContentType) async throws -> URL? {
     case .zip:
         proc.launchPath = "/usr/bin/unzip"
         proc.arguments = [url.path]
-    default:
-        throw AUError.badInput
+    case .unknown:
+        // 不应该到达这里，因为 viableAsset 已经过滤了 .unknown 类型
+        return nil
     }
 
     func findApp() async throws -> URL? {
